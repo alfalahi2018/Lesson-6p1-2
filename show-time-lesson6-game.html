@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Show Time – Performers Around the World | Grade 7</title>
+<style>
+:root{--ink:#17214d;--night:#3b0f2e;--sun:#ffc93c;--coral:#d62839;--teal:#12a594;--sky:#2a7de1;--grape:#8a55e0;--paper:#fff8ec;--ok:#1fa35c;--no:#e0402f}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{font-family:"Trebuchet MS","Segoe UI",Tahoma,Arial,sans-serif;color:var(--ink);background:var(--paper);font-size:18px;line-height:1.45;min-height:100vh;
+background-image:radial-gradient(circle at 10% 20%,#ffe9b8 0 90px,transparent 91px),radial-gradient(circle at 92% 78%,#d9e5ff 0 120px,transparent 121px)}
+header#top{position:sticky;top:0;z-index:20;display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between;padding:10px 16px;background:var(--night);color:#fff}
+.brand{font-weight:800;font-size:20px;letter-spacing:.3px}
+.hud{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.hud span{background:#ffffff22;padding:5px 12px;border-radius:999px;font-weight:700}
+button{font:inherit;font-weight:800;border:0;border-radius:14px;padding:10px 20px;background:var(--coral);color:#fff;cursor:pointer;box-shadow:0 4px 0 #b83f27;transition:transform .08s}
+button:active{transform:translateY(3px);box-shadow:0 1px 0 #b83f27}
+button:disabled{background:#b9bfd4;box-shadow:0 4px 0 #8c93ad;cursor:not-allowed}
+button.ghost{background:#fff;color:var(--ink);box-shadow:0 4px 0 #c9cde0;border:2px solid #c9cde0}
+.hud button{padding:5px 12px;font-size:15px;background:var(--sun);color:var(--ink);box-shadow:0 3px 0 #c79a12}
+main{max-width:1000px;margin:0 auto;padding:16px}
+footer{text-align:center;padding:18px;font-weight:700;color:var(--night)}
+.hero{width:100%;height:auto;border-radius:24px;display:block}
+.spin{animation:rot 24s linear infinite;transform-origin:200px 130px}
+@keyframes rot{to{transform:rotate(360deg)}}
+.twinkle{animation:tw 2.4s ease-in-out infinite}
+@keyframes tw{50%{opacity:.25}}
+h1{font-size:34px;margin:16px 0 4px;color:var(--night)}
+.sub{margin:0 0 14px}
+.ar{direction:rtl;font-family:Tahoma,Arial,sans-serif}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin:18px 0}
+.stagecard{background:#fff;border-radius:22px;padding:18px;border:3px solid var(--c);box-shadow:0 8px 0 var(--c);cursor:pointer;position:relative;transition:transform .15s}
+.stagecard:hover{transform:translateY(-4px)}
+.stagecard .big{font-size:50px;line-height:1}
+.stagecard h3{margin:6px 0 0;font-size:22px}
+.stagecard small{color:#556}
+.badge{position:absolute;top:12px;right:12px;background:var(--c);color:#fff;font-weight:800;border-radius:999px;padding:3px 12px;font-size:14px}
+.tick{background:var(--ok)}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:center;margin:10px 0}
+.sh{background:var(--c);color:#fff;border-radius:20px;padding:12px 18px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px}
+.sh h2{margin:0;font-size:24px}.sh small{font-size:18px;margin-inline-start:8px;opacity:.9}
+.dots{display:flex;gap:6px}.dots i{width:14px;height:14px;border-radius:50%;background:#ffffff55}.dots i.d{background:#fff}.dots i.a{background:var(--sun);transform:scale(1.3)}
+.card{background:#fff;border-radius:22px;padding:18px;margin:14px 0;box-shadow:0 6px 18px #1b2a6b1f}
+.card h3{margin:0 0 4px;font-size:24px}
+.inst{margin:0 0 12px;color:#44507a;font-weight:700}
+.nav{display:flex;justify-content:space-between;gap:10px;margin:8px 0 24px}
+.pulse{animation:pl 1s ease-in-out infinite}
+@keyframes pl{50%{transform:scale(1.07)}}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin-bottom:14px}
+.fact{border-radius:16px;padding:12px 14px;color:#fff}
+.fact.a{background:var(--teal)}.fact.b{background:#f08a24}
+.fact b{font-size:20px}
+.bank{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;padding:12px;background:#eef2ff;border-radius:16px;margin:12px 0;min-height:58px}
+.chip{display:inline-block;padding:8px 16px;border-radius:999px;background:#fff;border:3px solid var(--sky);font-weight:800;cursor:grab;user-select:none;-webkit-user-select:none;touch-action:none;box-shadow:0 3px 0 #9db8ff}
+.chip.sel{background:var(--sun);border-color:#d49a00;transform:scale(1.08)}
+.chip.lift{opacity:.3}
+.chip.ghost{position:fixed;z-index:999;pointer-events:none;transform:translate(-50%,-50%) scale(1.12);background:var(--sun);border-color:#d49a00}
+.chip.gone{display:none}
+.chip.placed{cursor:default;background:#e3f7ec;border-color:var(--ok);box-shadow:none}
+.chip.wd{border-color:var(--grape);box-shadow:0 3px 0 #cdb5f3;cursor:pointer}
+.pics{display:grid;grid-template-columns:repeat(auto-fit,minmax(135px,1fr));gap:12px}
+.pic{border:3px dashed #aab6e6;border-radius:18px;text-align:center;padding:10px;background:#fafbff;transition:.15s}
+.pic .em{font-size:56px;line-height:1.1}
+.pic .fill{font-weight:800;min-height:28px;color:#8b93b8}
+.pic .ar{color:var(--teal);font-weight:800;min-height:26px}
+.tgt.hov{background:#fff3c4;border-color:var(--sun);transform:scale(1.04)}
+.tgt.filled{border-style:solid;border-color:var(--ok);background:#e9f9ef}
+.pic.filled .fill{color:var(--ok)}
+.gap{display:inline-block;min-width:92px;min-height:34px;vertical-align:middle;text-align:center;border-bottom:4px dashed var(--sky);background:#eef3ff;border-radius:10px;padding:0 8px;margin:2px 4px;font-weight:800;color:var(--ok)}
+.gap.filled{border-bottom:4px solid var(--ok);background:#e3f7ec}
+.pairs{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px;margin-top:8px}
+.pair{background:#f4f6ff;border-radius:14px;padding:8px 12px;font-weight:800}
+.buckets{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.bucket{border:3px dashed #aab6e6;border-radius:18px;padding:10px;min-height:140px;text-align:center}
+.bucket h4{margin:0 0 6px;font-size:20px}
+.bucket.s{background:#fff3e1}.bucket.f{background:#e6f8f6}
+.drop{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.text{font-size:20px;line-height:2.2}
+.q{padding:12px 0;border-bottom:2px dotted #d5daf0}.q:last-child{border:0}
+.q p{margin:0 0 8px;font-weight:800}
+.opts{display:flex;gap:8px;flex-wrap:wrap}
+.opt{background:#fff;color:var(--ink);border:3px solid var(--sky);box-shadow:0 3px 0 #9db8ff;padding:8px 18px}
+.opt.ok{background:var(--ok);border-color:var(--ok);color:#fff;box-shadow:none}
+.opt.no{background:var(--no);border-color:var(--no);color:#fff;box-shadow:none}
+.exp{color:var(--ok);font-weight:800;margin-top:6px;min-height:1px}
+.shake{animation:sk .4s}
+@keyframes sk{20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-6px)}80%{transform:translateX(6px)}}
+.rule{display:grid;gap:12px}
+.formula{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;align-items:center;font-size:22px;font-weight:800;background:#17214d;color:#fff;border-radius:18px;padding:14px}
+.formula span{padding:6px 14px;border-radius:12px}
+.b1{background:var(--sky)}.b2{background:var(--coral)}.b3{background:var(--teal)}
+.use{border-radius:16px;padding:12px 14px;border-inline-start:8px solid var(--c);background:#f6f8ff}
+.use h4{margin:0 0 4px}
+.use .e{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:4px 0}
+.hl-h{color:var(--coral);font-weight:800}.hl-v{color:var(--teal);font-weight:800}.hl-t{color:var(--grape);font-weight:800}
+.say{padding:2px 10px;font-size:14px;background:var(--sun);color:var(--ink);box-shadow:0 2px 0 #c79a12;border-radius:999px}
+.typerow{display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding:8px 0;font-size:20px}
+.typerow input{font:inherit;font-weight:800;border:3px solid var(--sky);border-radius:12px;padding:4px 10px;width:150px;text-align:center}
+.typerow input.ok{border-color:var(--ok);background:#e3f7ec}
+.typerow .hint{color:var(--coral);font-weight:700;font-size:16px}
+.line{min-height:56px;border:3px dashed #aab6e6;border-radius:14px;padding:8px;display:flex;flex-wrap:wrap;gap:8px;margin:8px 0;background:#fafbff}
+.line.ok{border-style:solid;border-color:var(--ok);background:#e9f9ef}
+.spinbox{text-align:center;padding:16px}
+.prompt{font-size:26px;font-weight:800;min-height:90px;margin:12px 0;color:var(--grape)}
+.wheel{font-size:70px;display:inline-block}
+.wheel.go{animation:rot 0.8s linear}
+.cert{background:#fff;border:10px double var(--sun);border-radius:24px;text-align:center;padding:26px 16px;margin:14px 0}
+.cert h2{font-size:34px;margin:0;color:var(--night)}
+.cert .nm{font-size:30px;font-weight:800;color:var(--coral);min-height:44px;border-bottom:3px dotted #c9cde0;display:inline-block;min-width:60%}
+.cert .stars{font-size:46px}
+.cert input{font:inherit;padding:8px 14px;border:3px solid var(--sky);border-radius:12px;text-align:center;width:min(380px,90%)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--night);color:#fff;padding:12px 22px;border-radius:999px;font-weight:800;z-index:1000}
+.conf{position:fixed;top:-40px;z-index:998;font-size:28px;pointer-events:none;animation:fall 2.6s linear forwards}
+@keyframes fall{to{transform:translateY(110vh) rotate(360deg)}}
+.chip.long{border-radius:16px;text-align:center;max-width:320px}
+.pic .def{font-size:15px;min-height:62px;margin:4px 0}
+.poster{display:grid;gap:10px;max-width:540px;margin:0 auto 10px;border:6px solid var(--sun);border-radius:18px;padding:12px;background:linear-gradient(#fff3d6,#ffe0e6)}
+.pslot{border:3px dashed #c9a4b5;border-radius:14px;padding:8px;text-align:center;background:#fff}
+.pslot small{display:block;color:#7a4a66;font-weight:700}
+.pslot .fill{font-weight:800;min-height:26px;color:#8b93b8}
+.pslot.filled .fill{color:var(--ok)}
+@media (max-width:560px){body{font-size:16px}h1{font-size:26px}.buckets{grid-template-columns:1fr}.text{font-size:18px}}
+@media (prefers-reduced-motion:reduce){.spin,.twinkle,.pulse{animation:none}}
+@media print{body *{visibility:hidden}#cert,#cert *{visibility:visible}#cert{position:absolute;left:0;top:0;width:100%}.cert input{display:none}}
+</style>
+</head>
+<body>
+<header id="top">
+  <div class="brand">🎭 Show Time</div>
+  <div class="hud"><span id="timer">⏱ 25:00</span><button id="tbtn">Start timer</button><span id="score">⭐ 0</span><button id="mute" aria-label="Sound">🔊</button></div>
+</header>
+<main id="view"></main>
+<footer>Created by T. Badria Alfalahi</footer>
+
+<script>
+const $=(s,r=document)=>r.querySelector(s);
+const el=(t,c,h)=>{const e=document.createElement(t);if(c)e.className=c;if(h!==undefined)e.innerHTML=h;return e;};
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
+const view=$('#view');
+
+/* ---------- sound ---------- */
+let muted=false,AC;
+function tone(f,d,type='sine',when=0){if(muted)return;try{AC=AC||new(window.AudioContext||window.webkitAudioContext)();const o=AC.createOscillator(),g=AC.createGain(),s=AC.currentTime+when;o.type=type;o.frequency.value=f;g.gain.setValueAtTime(.08,s);g.gain.exponentialRampToValueAtTime(.001,s+d);o.connect(g);g.connect(AC.destination);o.start(s);o.stop(s+d);}catch(e){}}
+const good=()=>{tone(660,.12);tone(880,.18,'sine',.1)};
+const bad=()=>tone(170,.25,'sawtooth');
+const win=()=>[523,659,784,1047].forEach((f,i)=>tone(f,.22,'triangle',i*.12));
+$('#mute').onclick=function(){muted=!muted;this.textContent=muted?'🔇':'🔊'};
+function speak(t){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang='en-GB';u.rate=.9;speechSynthesis.speak(u);}catch(e){}}
+
+/* ---------- timer (25 min lesson) ---------- */
+let left=1500,tt=null;
+function showT(){const m=Math.floor(left/60),s=left%60;$('#timer').textContent=left>0?`⏱ ${m}:${String(s).padStart(2,'0')}`:"⏰ Time's up!";}
+$('#tbtn').onclick=function(){
+  if(tt){clearInterval(tt);tt=null;this.textContent='Resume timer';return;}
+  this.textContent='Pause timer';
+  tt=setInterval(()=>{left--;showT();if(left<=0){clearInterval(tt);tt=null;win();toast("Time's up! Finish your mission 🎉");}},1000);
+};
+
+/* ---------- state ---------- */
+const S={score:0,got:new Set(),bad:new Set(),stage:{s1:0,s2:0,s3:0},done:{},sel:null};
+function upd(){$('#score').textContent='⭐ '+S.score;}
+function attempt(key,ok,sid){
+  if(ok){good();if(!S.bad.has(key)&&!S.got.has(key)){S.got.add(key);S.score+=10;S.stage[sid]+=10;upd();}}
+  else{bad();S.bad.add(key);}
+}
+function shake(e){e.classList.add('shake');setTimeout(()=>e.classList.remove('shake'),420);}
+function toast(t){const d=el('div','toast',t);document.body.appendChild(d);setTimeout(()=>d.remove(),2600);}
+function confetti(){const em=['🎉','⭐','🎈','✨','🎊','🎭','🎡'];for(let i=0;i<28;i++){const c=el('div','conf',em[i%em.length]);c.style.left=Math.random()*100+'vw';c.style.animationDelay=Math.random()*.9+'s';document.body.appendChild(c);setTimeout(()=>c.remove(),3800);}}
+
+/* ---------- drag & drop engine (mouse, touch, smartboard + tap-to-place) ---------- */
+function dnd(chips,targets,handler){
+  chips.forEach(ch=>{
+    ch.addEventListener('pointerdown',e=>{
+      if(ch.classList.contains('gone')||ch.classList.contains('placed'))return;
+      e.preventDefault();
+      const sx=e.clientX,sy=e.clientY;let ghost=null,moved=false;
+      const mv=ev=>{
+        if(!moved&&Math.hypot(ev.clientX-sx,ev.clientY-sy)>8){
+          moved=true;ghost=ch.cloneNode(true);ghost.className='chip ghost';document.body.appendChild(ghost);ch.classList.add('lift');
+          if(S.sel){S.sel.classList.remove('sel');S.sel=null;}
+        }
+        if(moved){
+          ghost.style.left=ev.clientX+'px';ghost.style.top=ev.clientY+'px';
+          const t=document.elementFromPoint(ev.clientX,ev.clientY);const tg=t&&t.closest('.tgt');
+          targets.forEach(x=>x.classList.toggle('hov',x===tg));
+        }
+      };
+      const up=ev=>{
+        window.removeEventListener('pointermove',mv);window.removeEventListener('pointerup',up);window.removeEventListener('pointercancel',up);
+        targets.forEach(x=>x.classList.remove('hov'));
+        if(moved){
+          ghost.remove();ch.classList.remove('lift');
+          const t=document.elementFromPoint(ev.clientX,ev.clientY);const tg=t&&t.closest('.tgt');
+          if(tg&&targets.includes(tg))handler(ch,tg);
+        }else{
+          if(S.sel===ch){ch.classList.remove('sel');S.sel=null;}
+          else{if(S.sel)S.sel.classList.remove('sel');S.sel=ch;ch.classList.add('sel');}
+        }
+      };
+      window.addEventListener('pointermove',mv);window.addEventListener('pointerup',up);window.addEventListener('pointercancel',up);
+    });
+  });
+  targets.forEach(t=>t.addEventListener('click',()=>{
+    if(S.sel&&chips.includes(S.sel)){const c=S.sel;c.classList.remove('sel');S.sel=null;handler(c,t);}
+  }));
+}
+function slotHandler(ctx,pre){
+  return (ch,t)=>{
+    if(t.classList.contains('filled'))return;
+    const ok=ch.dataset.v===t.dataset.ans;
+    attempt(pre+(t.dataset.k||t.dataset.ans),ok,ctx.sid);
+    if(!ok){shake(t);return;}
+    const f=t.querySelector('.fill')||t;f.textContent=ch.dataset.v;
+    const a=t.querySelector('.ar');if(a)a.textContent=t.dataset.ar||'';
+    t.classList.add('filled');ch.classList.add('gone');ctx.hit();
+  };
+}
+const chipEl=(v,cls='')=>{const c=el('span','chip '+cls,v);c.dataset.v=v;return c;};
+
+/* ---------- reusable task renderers ---------- */
+function renderQuiz(box,ctx,qs,pre){
+  qs.forEach((q,qi)=>{
+    const d=el('div','q');d.innerHTML=`<p>${qi+1}. ${q.q}</p>`;
+    const o=el('div','opts');const ex=el('div','exp');let done=false;
+    q.o.forEach((t,i)=>{
+      const b=el('button','opt',t);
+      b.onclick=()=>{
+        if(done)return;
+        const ok=i===q.a;attempt(pre+qi,ok,ctx.sid);
+        if(ok){done=true;b.classList.add('ok');ex.textContent='✔ '+(q.exp||'Well done!');ctx.hit();}
+        else{b.classList.add('no');shake(b);}
+      };
+      o.appendChild(b);
+    });
+    d.appendChild(o);d.appendChild(ex);box.appendChild(d);
+  });
+}
+function renderType(box,ctx,items,pre){
+  items.forEach((it,i)=>{
+    const r=el('div','typerow');
+    r.innerHTML=`<span>${it.pre}</span><input type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="(${it.v})"><button>Check</button><span class="hint"></span>`;
+    const inp=$('input',r),btn=$('button',r),hint=$('.hint',r);let wrong=0,done=false;
+    const check=()=>{
+      if(done)return;
+      const v=inp.value.trim().toLowerCase();if(!v)return;
+      const ok=it.a.includes(v);attempt(pre+i,ok,ctx.sid);
+      if(ok){done=true;inp.classList.add('ok');inp.disabled=true;hint.textContent='✔';hint.style.color='var(--ok)';ctx.hit();}
+      else{wrong++;shake(inp);hint.textContent=wrong>=1?`Hint: starts with "${it.a[0][0]}"`:'';}
+    };
+    btn.onclick=check;inp.addEventListener('keydown',e=>{if(e.key==='Enter')check();});
+    r.insertAdjacentHTML('beforeend',`<span>${it.post}</span>`);
+    box.appendChild(r);
+  });
+}
+function renderBuild(box,ctx,sents,pre){
+  sents.forEach((s,si)=>{
+    const words=s.split(' ');let order=shuffle(words);let tries=0;while(order.join(' ')===s&&tries++<5)order=shuffle(words);
+    const wrap=el('div','q');const line=el('div','line');const bank=el('div','bank');const b=el('button','',"Check");const msg=el('span','exp');let done=false;
+    order.forEach(w=>{
+      const c=el('span','chip wd',w);
+      c.onclick=()=>{if(done)return;(c.parentElement===bank?line:bank).appendChild(c);};
+      bank.appendChild(c);
+    });
+    b.onclick=()=>{
+      if(done)return;
+      const got=[...line.children].map(x=>x.textContent).join(' ');
+      if(!got)return;
+      const ok=got===s;attempt(pre+si,ok,ctx.sid);
+      if(ok){done=true;line.classList.add('ok');msg.textContent=' ✔ Perfect!';ctx.hit();}
+      else{shake(line);msg.textContent=' Try again – check the word order.';msg.style.color='var(--no)';}
+    };
+    wrap.innerHTML=`<p>Sentence ${si+1}: tap the words in the right order.</p>`;
+    wrap.append(line,bank,b,msg);box.appendChild(wrap);
+  });
+}
+
+/* ---------- STAGE DATA ---------- */
+const OLD=[
+/* ===== 1. WARM-UP ===== */
+{id:'s1',name:'Warm-up',ar:'التمهيد',emoji:'🎡',color:'#f08a24',time:'≈ 6 min',desc:'Meet the performers and the words you will need.',tasks:[
+ {title:'Meet the Performers',inst:'Drag each word to the right picture. اسحب الكلمة إلى الصورة المناسبة.',n:5,render(box,ctx){
+   const items=[['performer','🤹','فنّان / مؤدٍّ'],['performance','🎭','عرض / أداء'],['poem','📜','قصيدة'],['rhythm','🥁','إيقاع'],['swords','⚔️','سيوف']];
+   const g=el('div','pics');
+   shuffle(items).forEach(([w,e,a])=>{const p=el('div','pic tgt',`<div class="em">${e}</div><div class="fill">?</div><div class="ar"></div>`);p.dataset.ans=w;p.dataset.ar=a;g.appendChild(p);});
+   const bank=el('div','bank');const chips=shuffle(items).map(i=>chipEl(i[0]));chips.forEach(c=>bank.appendChild(c));
+   box.append(g,bank);dnd(chips,[...g.children],slotHandler(ctx,'s1m'));
+ }},
+ {title:'Read & Choose',inst:'Read the fact cards, then choose the correct answer.',n:4,render(box,ctx){
+   box.innerHTML=`<div class="facts"><div class="fact a"><b>🇴🇲 Al Haboot</b><br>A traditional Omani performance, popular in the mountains and in Dhofar. The performers sing a poem and move to its rhythm. They often carry swords and jump in the air.</div>
+   <div class="fact b"><b>🇨🇦 Cirque du Soleil</b><br>A big circus from Canada. Its name means “circus of the sun”. Two men started it in 1984. They have had a theatre in Las Vegas since 1993 and have performed on every continent except Antarctica.</div></div>`;
+   renderQuiz(box,ctx,[
+    {q:'Where can you watch Al Haboot?',o:['In the mountains in Oman','In Las Vegas','In Canada'],a:0,exp:'In the mountains in Oman, especially in Dhofar.'},
+    {q:'What does Cirque du Soleil mean?',o:['Circus of the moon','Circus of the sun','Theatre of the world'],a:1,exp:'“Circus of the sun”.'},
+    {q:'What do Al Haboot performers often carry?',o:['Drums','Flags','Swords'],a:2,exp:'They often carry swords.'},
+    {q:'Where is Cirque du Soleil from?',o:['Oman','Malaysia','Canada'],a:2,exp:'It is from Canada, not the USA.'}
+   ],'s1q');
+ }},
+ {title:'Spot the secret!',inst:'Look at the three sentences. What do they have in common? Tap the button to find out.',n:0,render(box,ctx){
+   box.innerHTML=`<div class="text" id="nt">Cirque du Soleil <u>have had</u> their own theatre since 1993.<br>They <u>have performed</u> in every continent except Antarctica.<br>I <u>have been</u> to two theme parks.</div><div class="row"><button id="rv">🔍 Reveal the secret</button></div><div id="sec"></div>`;
+   $('#rv',box).onclick=()=>{win();$('#sec',box).innerHTML=`<div class="formula"><span class="b1">I / you / we / they</span><span class="b2">have</span><span class="b3">had · performed · been</span></div><p style="text-align:center;font-weight:800;font-size:22px;margin:8px 0">It's the <span class="hl-h">Present Perfect</span>! Let's learn how it works in the next mission. 🚀</p>`;
+     $('#nt',box).innerHTML=`Cirque du Soleil <span class="hl-h">have</span> <span class="hl-v">had</span> their own theatre since 1993.<br>They <span class="hl-h">have</span> <span class="hl-v">performed</span> in every continent except Antarctica.<br>I <span class="hl-h">have</span> <span class="hl-v">been</span> to two theme parks.`;};
+ }}
+]},
+/* ===== 2. FORMATIVE ===== */
+{id:'s2',name:'Practice',ar:'النشاط التكويني',emoji:'🎢',color:'#3f7cff',time:'≈ 12 min',desc:'Learn the Present Perfect rule and train with it.',tasks:[
+ {title:'The Magic Rule 🔮',inst:'Present Perfect · المضارع التام',n:0,render(box){
+   const ex=(h,v,rest,full)=>`<div class="e"><span>${h}</span><button class="say" data-s="${full}">🔊 listen</button></div>`;
+   box.innerHTML=`<div class="rule">
+   <div class="formula"><span class="b1">Subject</span> + <span class="b2">have / has</span> + <span class="b3">past participle (V3)</span></div>
+   <div class="use" style="--c:#ff6b4a"><h4>1 · Experience – <span class="hl-t">ever / never</span></h4>
+     ${ex('<b>Have</b> you <span class="hl-t">ever</span> <span class="hl-v">been</span> to a theme park?','', '', 'Have you ever been to a theme park?')}
+     ${ex('I <span class="hl-h">have</span> <span class="hl-t">never</span> <span class="hl-v">seen</span> a circus show.','','','I have never seen a circus show.')}</div>
+   <div class="use" style="--c:#12b5a6"><h4>2 · Started in the past, continues now – <span class="hl-t">since / for</span></h4>
+     ${ex('They <span class="hl-h">have</span> <span class="hl-v">had</span> a theatre <span class="hl-t">since</span> 1993. <small>(point in time)</small>','','','They have had a theatre since 1993.')}
+     ${ex('She <span class="hl-h">has</span> <span class="hl-v">lived</span> in Muscat <span class="hl-t">for</span> ten years. <small>(period of time)</small>','','','She has lived in Muscat for ten years.')}</div>
+   <div class="use" style="--c:#3f7cff"><h4>3 · have or has?</h4>
+     <div class="e"><span>I · you · we · they → <span class="hl-h">have</span></span></div>
+     <div class="e"><span>he · she · it → <span class="hl-h">has</span></span></div>
+     <div class="e"><span>✗ They <span class="hl-h">haven't</span> performed in Antarctica. &nbsp; ? <span class="hl-h">Has</span> she <span class="hl-v">travelled</span> to Oman?</span></div></div>
+   <p class="ar" style="font-weight:700;margin:0">القاعدة: فاعل + have/has + التصريف الثالث للفعل. نستخدم <b>since</b> مع نقطة زمنية (1993، Monday) و <b>for</b> مع مدة زمنية (ten years، two hours).</p></div>`;
+   box.querySelectorAll('.say').forEach(b=>b.onclick=()=>speak(b.dataset.s));
+ }},
+ {title:'Verb Power-Up',inst:'Drag the past participle (V3) to the right verb.',n:6,render(box,ctx){
+   const items=[['see','seen'],['be','been'],['perform','performed'],['have','had'],['go','gone'],['take','taken']];
+   const g=el('div','pairs');
+   items.forEach(([v,p])=>{const d=el('div','pair',`${v} → <span class="gap tgt" data-ans="${p}"></span>`);g.appendChild(d);});
+   const bank=el('div','bank');const chips=shuffle(items).map(i=>chipEl(i[1]));chips.forEach(c=>bank.appendChild(c));
+   box.append(g,bank);dnd(chips,[...g.querySelectorAll('.tgt')],slotHandler(ctx,'s2p'));
+ }},
+ {title:'Since or For?',inst:'Drag each time expression to the correct box. (since + point in time · for + period of time)',n:6,render(box,ctx){
+   box.innerHTML=`<div class="buckets"><div class="bucket s tgt" data-b="since"><h4>📍 since</h4><div class="drop"></div></div><div class="bucket f tgt" data-b="for"><h4>⏳ for</h4><div class="drop"></div></div></div>`;
+   const items=[['1993','since'],['two hours','for'],['Monday','since'],['ten years','for'],['2020','since'],['a week','for']];
+   const bank=el('div','bank');const chips=shuffle(items).map(([t,b])=>{const c=chipEl(t);c.dataset.b=b;return c;});chips.forEach(c=>bank.appendChild(c));box.appendChild(bank);
+   dnd(chips,[...box.querySelectorAll('.bucket')],(ch,t)=>{
+     const ok=ch.dataset.b===t.dataset.b;attempt('s2s'+ch.dataset.v,ok,ctx.sid);
+     if(!ok){shake(t);return;}
+     $('.drop',t).appendChild(ch);ch.classList.add('placed');ctx.hit();
+   });
+ }},
+ {title:'Have or Has?',inst:'Choose the correct word.',n:5,render(box,ctx){
+   renderQuiz(box,ctx,[
+    {q:'The performer <b>___</b> performed in Las Vegas.',o:['have','has'],a:1,exp:'The performer = he/she → has'},
+    {q:'They <b>___</b> never performed in Antarctica.',o:['have','has'],a:0,exp:'They → have'},
+    {q:'I <b>___</b> been to two theme parks.',o:['have','has'],a:0,exp:'I → have'},
+    {q:'<b>___</b> Sara ever seen a circus show?',o:['Have','Has'],a:1,exp:'Sara = she → Has'},
+    {q:'Have you <b>___</b> been to a theme park?',o:['ever','since'],a:0,exp:'ever is used in questions about experience'}
+   ],'s2h');
+ }},
+ {title:'Complete the Text',inst:'Drag the words into the gaps. One word is extra!',n:4,render(box,ctx){
+   box.innerHTML=`<div class="text">Cirque du Soleil <span class="gap tgt" data-ans="have" data-k="1"></span> had their own theatre in Las Vegas <span class="gap tgt" data-ans="since" data-k="2"></span> 1993. They <span class="gap tgt" data-ans="have" data-k="3"></span> travelled all around the world <span class="gap tgt" data-ans="for" data-k="4"></span> more than thirty years.</div>`;
+   const bank=el('div','bank');const chips=['have','since','have','for','has'].map(w=>chipEl(w));shuffle(chips).forEach(c=>bank.appendChild(c));box.appendChild(bank);
+   dnd(chips,[...box.querySelectorAll('.gap')],slotHandler(ctx,'s2c'));
+ }},
+ {title:'Type the Verb',inst:'Write the Present Perfect form of the verb in brackets.',n:4,render(box,ctx){
+   renderType(box,ctx,[
+    {pre:'I have',post:'two theme parks.',v:'visit',a:['visited']},
+    {pre:'She has',post:'Al Haboot in Dhofar.',v:'see',a:['seen']},
+    {pre:'They have',post:'to Las Vegas.',v:'be',a:['been']},
+    {pre:'We have',post:'popcorn at the cinema.',v:'eat',a:['eaten']}
+   ],'s2t');
+ }}
+]},
+/* ===== 3. CLOSING ===== */
+{id:'s3',name:'Final Show',ar:'النشاط الختامي',emoji:'🎭',color:'#8a55e0',time:'≈ 7 min',desc:'Show what you know and win your certificate!',tasks:[
+ {title:'Build the Sentence',inst:'Tap the words to build correct Present Perfect sentences.',n:3,render(box,ctx){
+   renderBuild(box,ctx,['Have you ever been to a theme park?','I have never seen a circus show.','She has lived in Muscat for ten years.'],'s3b');
+ }},
+ {title:'My Favourite Theme Park 🎢',inst:'Drag the words into the gaps. (Word pool: popular · been · fun · 100 · climb · river · camp · stars)',n:8,render(box,ctx){
+   const gap=(a,k)=>`<span class="gap tgt" data-ans="${a}" data-k="${k}"></span>`;
+   box.innerHTML=`<div class="text">Theme parks are ${gap('popular',1)} around the world! I've ${gap('been',2)} to two theme parks in Malaysia and my favourite was called Escape near Penang. There are ${gap('fun',3)} things for people of all ages there, from age four to ${gap('100',4)}! You can ${gap('climb',5)} through the trees, go down slides into swimming pools, go on trampolines and even go down a ${gap('river',6)} in a boat! You can also ${gap('camp',7)} in the forest and look at the ${gap('stars',8)} in the sky. It is amazing!</div>`;
+   const bank=el('div','bank');const chips=shuffle(['popular','been','fun','100','climb','river','camp','stars']).map(w=>chipEl(w));chips.forEach(c=>bank.appendChild(c));box.appendChild(bank);
+   dnd(chips,[...box.querySelectorAll('.gap')],slotHandler(ctx,'s3c'));
+ }},
+ {title:'True or False?',inst:'Remember Al Haboot and Cirque du Soleil. Choose True or False.',n:5,render(box,ctx){
+   renderQuiz(box,ctx,[
+    {q:'Al Haboot is a traditional Omani performance.',o:['True','False'],a:0,exp:'True!'},
+    {q:'Cirque du Soleil is from the USA.',o:['True','False'],a:1,exp:'False – it is from Canada.'},
+    {q:'Two women started the circus in 1984.',o:['True','False'],a:1,exp:'False – two men started it.'},
+    {q:'Cirque du Soleil have not performed in Antarctica.',o:['True','False'],a:0,exp:'True!'},
+    {q:'The Al Haboot performers wear casual clothes.',o:['True','False'],a:1,exp:'False – traditional or formal clothes.'}
+   ],'s3t');
+ }},
+ {title:'Speaking Mission 🎤',inst:'Spin the wheel 3 times. Ask your partner the question. Answer: “Yes, I have.” / “No, I haven\'t.”',n:1,render(box,ctx){
+   const P=['Have you ever been to a theme park? Where?','Have you ever seen a circus show?','Have you ever watched Al Haboot?','Have you ever been to a cinema? What did you watch?','Have you ever been on a trampoline?','Have you ever been to a zoo?','Have you ever taken part in a performance?','Have you ever sung a poem or a song on a stage?'];
+   box.innerHTML=`<div class="spinbox"><div class="wheel" id="wh">🎡</div><div class="prompt" id="pr">Press the button!</div><button id="sp">Spin the wheel</button><p id="cnt" style="font-weight:800">Spins: 0 / 3</p></div>`;
+   let n=0,last=-1;
+   $('#sp',box).onclick=()=>{
+     let i;do{i=Math.floor(Math.random()*P.length);}while(i===last);last=i;n++;
+     const w=$('#wh',box);w.classList.remove('go');void w.offsetWidth;w.classList.add('go');tone(500,.1);
+     $('#pr',box).textContent=P[i];speak(P[i]);$('#cnt',box).textContent='Spins: '+Math.min(n,3)+' / 3';
+     if(n===3){attempt('s3spin',true,ctx.sid);ctx.hit();}
+   };
+ }}
+]}
+];
+
+
+/* ===== NEW stages for Lesson 6, parts 1 & 2 (re-use shared tasks from OLD) ===== */
+const stages=[
+{id:'s1',name:'Warm-up',ar:'التمهيد',emoji:'🎬',color:'#e4572e',time:'≈ 7 min',desc:'Learn the key words and sort facts about two amazing performances.',tasks:[
+ {title:'Words on Stage',inst:'Drag each word to its meaning. اسحب الكلمة إلى معناها.',n:5,render(box,ctx){
+   const items=[['performer','🤹','a person who entertains an audience','فنّان / مؤدٍّ'],['performance','🎭','the act of presenting entertainment to an audience','عرض / أداء'],['poem','📜','words in lines that people can read or sing','قصيدة'],['rhythm','🥁','a regular beat in music or in a poem','إيقاع'],['swords','⚔️','long metal blades that Al Haboot performers often carry','سيوف']];
+   const g=el('div','pics');
+   shuffle(items).forEach(([w,e,d,a])=>{const p=el('div','pic tgt',`<div class="em">${e}</div><div class="def">${d}</div><div class="fill">?</div><div class="ar"></div>`);p.dataset.ans=w;p.dataset.ar=a;g.appendChild(p);});
+   const bank=el('div','bank');const chips=shuffle(items).map(i=>chipEl(i[0]));chips.forEach(c=>bank.appendChild(c));
+   box.append(g,bank);dnd(chips,[...g.children],slotHandler(ctx,'t1m'));
+ }},
+ {title:'Al Haboot or Cirque du Soleil?',inst:'Read the cards. Then drag each fact to the correct performance.',n:8,render(box,ctx){
+   box.innerHTML=`<div class="facts"><div class="fact a"><b>🇴🇲 Al Haboot</b><br>A traditional Omani performance, popular in the mountains and in Dhofar. The performers sing a poem and move to its rhythm. They often carry swords and jump in the air.</div>
+   <div class="fact b"><b>🇨🇦 Cirque du Soleil</b><br>A big circus from Canada. Two men started it in 1984. They put on shows with fantastic costumes, have a theatre in Las Vegas, and perform all around the world.</div></div>
+   <div class="buckets"><div class="bucket s tgt" data-b="h"><h4>🇴🇲 Al Haboot</h4><div class="drop"></div></div><div class="bucket f tgt" data-b="c"><h4>🇨🇦 Cirque du Soleil</h4><div class="drop"></div></div></div>`;
+   const items=[['move to the rhythm of a poem','h'],['perform all around the world','c'],['jump in the air with swords','h'],['wear fantastic costumes','c'],['watch it in Las Vegas','c'],['sing a poem','h'],['is from Canada','c'],['popular in Dhofar','h']];
+   const bank=el('div','bank');const chips=shuffle(items).map(([t,b])=>{const c=chipEl(t,'long');c.dataset.b=b;return c;});chips.forEach(c=>bank.appendChild(c));box.appendChild(bank);
+   dnd(chips,[...box.querySelectorAll('.bucket')],(ch,t)=>{
+     const ok=ch.dataset.b===t.dataset.b;attempt('t1s'+ch.dataset.v,ok,ctx.sid);
+     if(!ok){shake(t);return;}
+     $('.drop',t).appendChild(ch);ch.classList.add('placed');ctx.hit();
+   });
+ }},
+ OLD[0].tasks[2]
+]},
+{id:'s2',name:'Practice',ar:'النشاط التكويني',emoji:'🎤',color:'#2a9d8f',time:'≈ 10 min',desc:'Learn the Present Perfect rule, then complete the Activity Book tasks.',tasks:[
+ OLD[1].tasks[0],
+ OLD[1].tasks[3],
+ OLD[1].tasks[2],
+ {title:'Answer the Questions',inst:'Activity Book 2. Drag the missing word into each answer. One word is extra!',n:4,render(box,ctx){
+   const gap=(a,k)=>`<span class="gap tgt" data-ans="${a}" data-k="${k}"></span>`;
+   box.innerHTML=`<div class="text">
+   <b>1. Why do people enjoy watching performers on stage?</b><br>Watching performers on stage can be ${gap('exciting',1)}.<br>
+   <b>2. When can you watch Al Haboot?</b><br>You can sometimes watch Al Haboot on national days or for ${gap('celebrations',2)}.<br>
+   <b>3. What might the Al Haboot performers wear?</b><br>They might wear traditional or ${gap('formal',3)} clothes.<br>
+   <b>4. In which continent have Cirque du Soleil not performed?</b><br>Cirque du Soleil have not performed in ${gap('Antarctica',4)}.</div>`;
+   const bank=el('div','bank');const chips=shuffle(['exciting','celebrations','formal','Antarctica','boring']).map(w=>chipEl(w));chips.forEach(c=>bank.appendChild(c));box.appendChild(bank);
+   dnd(chips,[...box.querySelectorAll('.gap')],slotHandler(ctx,'t2a'));
+ }},
+ OLD[2].tasks[1]
+]},
+{id:'s3',name:'Poster & Final Show',ar:'المشروع والختام',emoji:'🏆',color:'#8a55e0',time:'≈ 8 min',desc:'True or false, build sentences and make a poster for a performance!',tasks:[
+ {title:'True or False?',inst:'Part 2 · Starting the lesson. Choose True or False.',n:7,render(box,ctx){
+   renderQuiz(box,ctx,[
+    {q:'Al Haboot is a traditional Omani performance.',o:['True','False'],a:0,exp:'True!'},
+    {q:'The performers sing a poem.',o:['True','False'],a:0,exp:'True!'},
+    {q:'The performers throw their swords in the air.',o:['True','False'],a:1,exp:'False – they jump in the air with their swords.'},
+    {q:'The dancers wear casual clothes.',o:['True','False'],a:1,exp:'False – they wear traditional or formal clothes.'},
+    {q:'Cirque du Soleil is from the USA.',o:['True','False'],a:1,exp:"False – it's from Canada."},
+    {q:'Two women started the circus in 1984.',o:['True','False'],a:1,exp:'False – two men started it.'},
+    {q:"They haven't performed in Antarctica.",o:['True','False'],a:0,exp:'True!'}
+   ],'t3t');
+ }},
+ {title:'Build the Sentence',inst:'Tap the words to build correct sentences from the text.',n:3,render(box,ctx){
+   renderBuild(box,ctx,['How long have they had this theatre?','They have had their own theatre since 1993.','Cirque du Soleil have not performed in Antarctica.'],'t3b');
+ }},
+ {title:'Make a Poster! 🖼️',inst:'Project · Make a poster for a performance. Drag the right part into each box.',n:4,render(box,ctx){
+   const parts=[['Headline (use an exclamation mark!)','Come and see Al Haboot!'],['Picture','📸 Photo of the performers'],['Interesting fact','The performers jump in the air with swords!'],['Place, date and time','Dhofar · Friday · 7 pm']];
+   const poster=el('div','poster');
+   parts.forEach(([lab,ans],i)=>{const p=el('div','pslot tgt',`<small>${lab}</small><div class="fill">drop here</div>`);p.dataset.ans=ans;p.dataset.k=i;poster.appendChild(p);});
+   const bank=el('div','bank');const chips=shuffle([...parts.map(p=>p[1]),'come and see al haboot','Al Haboot is OK']).map(w=>chipEl(w,'long'));chips.forEach(c=>bank.appendChild(c));
+   box.append(poster,bank);dnd(chips,[...poster.children],slotHandler(ctx,'t3p'));
+ }},
+ OLD[2].tasks[3]
+]}
+];
+
+/* ---------- HOME ---------- */
+const maxOf=st=>st.tasks.reduce((a,t)=>a+t.n*10,0);
+const MAX=stages.reduce((a,s)=>a+maxOf(s),0);
+function home(){
+  S.sel=null;
+  view.innerHTML=`
+  <svg class="hero" viewBox="0 0 800 260" role="img" aria-label="A theatre stage with red curtains and a spotlight">
+   <defs><linearGradient id="cur" x1="0" x2="1"><stop offset="0" stop-color="#8d1226"/><stop offset=".5" stop-color="#d62839"/><stop offset="1" stop-color="#8d1226"/></linearGradient>
+   <linearGradient id="spot" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff6c8" stop-opacity=".9"/><stop offset="1" stop-color="#fff6c8" stop-opacity="0"/></linearGradient></defs>
+   <rect width="800" height="260" fill="#1d0d2b"/>
+   <path class="twinkle" d="M340 0H460L640 260H160Z" fill="url(#spot)"/>
+   <rect y="215" width="800" height="45" fill="#6b3a1e"/><rect y="215" width="800" height="6" fill="#ffc93c"/>
+   <path d="M0 0H250Q200 60 215 130 Q225 200 160 260H0Z" fill="url(#cur)"/>
+   <path d="M800 0H550Q600 60 585 130 Q575 200 640 260H800Z" fill="url(#cur)"/>
+   <rect width="800" height="24" fill="#8d1226"/><rect y="24" width="800" height="5" fill="#ffc93c"/>
+   <text x="400" y="150" text-anchor="middle" font-size="84">🎭</text>
+   <text x="310" y="205" text-anchor="middle" font-size="46">🤹</text><text x="490" y="205" text-anchor="middle" font-size="46">🥁</text>
+   <text x="90" y="215" text-anchor="middle" font-size="30">⭐</text><text x="715" y="215" text-anchor="middle" font-size="30">⭐</text>
+  </svg>
+  <h1>Mission: Get Ready for the Big Show! 🎭</h1>
+  <p class="sub">Earn three spotlights to start the show (theme: entertainment places). Choose <b>any</b> mission to start – the order is yours! &nbsp; <span class="ar">اختر أي مرحلة تبدأ بها.</span></p>
+  <div class="cards">${stages.map(s=>`<div class="stagecard" style="--c:${s.color}" data-id="${s.id}" tabindex="0" role="button">
+     <span class="badge ${S.done[s.id]?'tick':''}">${S.done[s.id]?'✔ '+S.stage[s.id]+' pts':s.time}</span>
+     <div class="big">${s.emoji}</div><h3>${s.name} <small class="ar">${s.ar}</small></h3><p style="margin:4px 0 0">${s.desc}</p></div>`).join('')}</div>
+  <div class="row"><button id="cert">🏆 My certificate</button></div>`;
+  view.querySelectorAll('.stagecard').forEach(c=>{const go=()=>runStage(stages.find(s=>s.id===c.dataset.id));c.onclick=go;c.onkeydown=e=>{if(e.key==='Enter'||e.key===' ')go();};});
+  $('#cert').onclick=certificate;
+  window.scrollTo(0,0);
+}
+
+/* ---------- STAGE RUNNER ---------- */
+function runStage(st){
+  let i=0;const wrap=el('div','stage');view.innerHTML='';view.appendChild(wrap);
+  function show(){
+    const t=st.tasks[i];S.sel=null;
+    wrap.innerHTML=`<div class="sh" style="--c:${st.color}"><h2>${st.emoji} ${st.name}<small class="ar">${st.ar}</small></h2><div class="dots">${st.tasks.map((_,k)=>`<i class="${k<i?'d':k===i?'a':''}"></i>`).join('')}</div></div>
+      <div class="card"><h3>${t.title}</h3><p class="inst">${t.inst||''}</p><div id="tb"></div></div>
+      <div class="nav"><button class="ghost" id="hm">⌂ Menu</button><button id="nx" disabled>${i<st.tasks.length-1?'Next ▶':'Finish ✔'}</button></div>`;
+    const nx=$('#nx',wrap);let got=0;
+    const ctx={sid:st.id,hit(){got++;if(got>=t.n){nx.disabled=false;nx.classList.add('pulse');win();}}};
+    t.render($('#tb',wrap),ctx);
+    if(t.n===0)nx.disabled=false;
+    $('#hm',wrap).onclick=home;
+    nx.onclick=()=>{if(i<st.tasks.length-1){i++;show();window.scrollTo(0,0);}else finish(st);};
+  }
+  show();window.scrollTo(0,0);
+}
+function finish(st){
+  S.done[st.id]=true;confetti();win();
+  const all=stages.every(s=>S.done[s.id]);
+  if(all){certificate();}else{home();toast(`Spotlight earned! 🔦 +${S.stage[st.id]} pts`);}
+}
+
+/* ---------- CERTIFICATE ---------- */
+function certificate(){
+  const pct=S.score/MAX,stars=pct>=.9?5:pct>=.75?4:pct>=.55?3:pct>=.3?2:1;
+  const title=stars>=5?'Present Perfect Champion!':stars>=4?'Super Performer!':stars>=3?'Great Explorer!':'Brave Beginner!';
+  view.innerHTML=`<div class="cert" id="cert-box"><div id="cert"><div style="font-size:54px">🏆</div><h2>${title}</h2><p>Show Time · Performers Around the World · Grade 7</p>
+   <div class="stars">${'⭐'.repeat(stars)}${'☆'.repeat(5-stars)}</div>
+   <p>This certificate is proudly given to</p><div class="nm" id="nm">&nbsp;</div>
+   <p style="font-weight:800;font-size:22px">Score: ${S.score} / ${MAX} points</p>
+   <p>Missions finished: ${stages.filter(s=>S.done[s.id]).length} / 3</p>
+   <p style="margin-top:18px;font-weight:700">Created by T. Badria Alfalahi</p></div>
+   <p><input id="nin" placeholder="Type your name here ✏️"></p></div>
+   <div class="row"><button id="pr">🖨️ Print</button><button class="ghost" id="bk">⌂ Menu</button></div>`;
+  $('#nin').oninput=e=>{$('#nm').textContent=e.target.value||'\u00a0';};
+  $('#pr').onclick=()=>window.print();$('#bk').onclick=home;
+  if(Object.keys(S.done).length===3)confetti();
+  window.scrollTo(0,0);
+}
+
+showT();home();
+</script>
+</body>
+</html>
